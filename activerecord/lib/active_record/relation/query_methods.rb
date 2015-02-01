@@ -786,15 +786,13 @@ module ActiveRecord
     #
     #   User.select(:name).distinct.distinct(false)
     #   # => You can also remove the uniqueness
+    #   
+    #   User.distinct(:name)
+    #   # => Returns all columns in record per distinct name 
     def distinct(value = true)
       spawn.distinct!(value)
     end
     alias uniq distinct
-
-    # Events.distinct(:id) #SELECT DISTINCT ON (id) FROM Events
-    # def distinct(column)
-    #   spawn.distinct!(column)
-    # end
 
     # Like #distinct, but modifies relation in place.
     def distinct!(value = true) # :nodoc:
