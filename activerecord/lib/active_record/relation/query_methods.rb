@@ -791,6 +791,11 @@ module ActiveRecord
     end
     alias uniq distinct
 
+    # Events.distinct(:id) #SELECT DISTINCT ON (id) FROM Events
+    # def distinct(column)
+    #   spawn.distinct!(column)
+    # end
+
     # Like #distinct, but modifies relation in place.
     def distinct!(value = true) # :nodoc:
       self.distinct_value = value
@@ -893,7 +898,11 @@ module ActiveRecord
 
       build_select(arel)
 
-      arel.distinct(distinct_value)
+      if ((distinct_value.is_a? TrueClass) || (distinct_value.is_a? FalseClass) || distinct_value.nil?)
+        arel.distinct(distinct_value)
+      else
+        arel.distinct_on(Arel.sql(distinct_value))
+      end
       arel.from(build_from) unless from_clause.empty?
       arel.lock(lock_value) if lock_value
 
