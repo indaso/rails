@@ -1,3 +1,15 @@
+*   Columns can be passed to `#distinct` to generate a `DISTINCT` ON SQL
+    query argument.
+
+    Example:
+
+        User.distinct(:name)
+        # => SELECT DISTINCT ON (users.name) users.* FROM users
+
+    Fixes #18773.
+
+    *Isobeye Daso*, *Omachonu Ogali*
+
 *   Fix n+1 query problem when eager loading nil associations (fixes #18312)
 
     *Sammy Larbi*

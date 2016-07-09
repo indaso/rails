@@ -896,10 +896,10 @@ module ActiveRecord
 
       build_select(arel)
 
-      if ((distinct_value.is_a? TrueClass) || (distinct_value.is_a? FalseClass) || distinct_value.nil?)
-        arel.distinct(distinct_value)
-      else
+      if distinct_value === Symbol
         arel.distinct_on(Arel.sql(distinct_value))
+      else
+        arel.distinct(distinct_value)
       end
       arel.from(build_from) unless from_clause.empty?
       arel.lock(lock_value) if lock_value
